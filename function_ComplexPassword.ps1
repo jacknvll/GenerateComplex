@@ -52,7 +52,7 @@
         $Password +=$String
     } elseif (!$Length) { #Count has been defined, but Length=7
         for ($j=0;$j -lt $Count;$j++){
-            Clear-Variable String
+            if ($String){Clear-Variable String}
             for ($i=0;$i -lt $defaultLength;$i++) {
                 $RandomSet = Get-Random -InputObject $characters
                 $RandomFromSet = Get-Random -InputObject $RandomSet
@@ -63,7 +63,7 @@
         $Password += $Loop
     } else { #Both Count and Length have been defined
         for ($j=0;$j -lt $Count;$j++){
-            Clear-Variable String
+            if ($String){Clear-Variable String}
             for ($i=0;$i -lt $Length;$i++) {
                 $RandomSet = Get-Random -InputObject $characters
                 $RandomFromSet = Get-Random -InputObject $RandomSet
