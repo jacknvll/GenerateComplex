@@ -30,7 +30,7 @@
         $RandomFromSet = Get-Random -InputObject $RandomSet
         return $RandomFromSet
     }
-    $defaultLength = 7
+    $defaultLength = 7 #DefaultCount = 1, but there is no need to define this.
   
     if (!$Length -and !$Count){ #Use the Default Length=7 and Count=1
         for ($i=0;$i -lt $defaultLength;$i++) {
