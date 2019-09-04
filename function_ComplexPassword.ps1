@@ -14,49 +14,39 @@
         [int]
         $Count
     )
-    
-    #Complex Generator
-    $lowercase = @('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z')
-    $uppercase = @('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z')
-    $special = @('!','@','#','%','*',',','.','?')
-    $numbers = @('0','1','2','3','4','5','6','7','8','9')
-
     $Password = @()
     $Loop = @()
     $Error.Clear()
 
-    $characters = @($lowercase,$uppercase,$special,$numbers)
-    $defaultLength = 7
-    $defaultCount = 1
-<# FOR TESTING PURPOSES:
-    for ($i=0;$i -lt $defaultLength;$i++) {
-            $RandomSet = Get-Random -InputObject $characters
-            $RandomFromSet = Get-Random -InputObject $RandomSet
-            $Password += $RandomFromSet   
-        }
-#>
+    function Get-RandChar {
+        #Complex Generator
+        $lowercase = @('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z')
+        $uppercase = @('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z')
+        $special = @('!','@','#','%','*',',','.','?')
+        $numbers = @('0','1','2','3','4','5','6','7','8','9')
+        $characters = @($lowercase,$uppercase,$special,$numbers)
+
+        $RandomSet = Get-Random -InputObject $characters
+        $RandomFromSet = Get-Random -InputObject $RandomSet
+        return $RandomFromSet
+    }
+    $defaultLength = 7 #DefaultCount = 1, but there is no need to define this.
   
     if (!$Length -and !$Count){ #Use the Default Length=7 and Count=1
         for ($i=0;$i -lt $defaultLength;$i++) {
-            $RandomSet = Get-Random -InputObject $characters
-            $RandomFromSet = Get-Random -InputObject $RandomSet
-            $String += $RandomFromSet   
+            $String += Get-RandChar  
         }
         $Password +=$String
     } elseif (!$Count) { #Length has been defined, but Count=1
         for ($i=0;$i -lt $Length;$i++) {
-            $RandomSet = Get-Random -InputObject $characters
-            $RandomFromSet = Get-Random -InputObject $RandomSet
-            $String += $RandomFromSet   
+            $String += Get-RandChar  
         }
         $Password +=$String
     } elseif (!$Length) { #Count has been defined, but Length=7
         for ($j=0;$j -lt $Count;$j++){
             if ($String){Clear-Variable String}
             for ($i=0;$i -lt $defaultLength;$i++) {
-                $RandomSet = Get-Random -InputObject $characters
-                $RandomFromSet = Get-Random -InputObject $RandomSet
-                $String += $RandomFromSet
+                $String += Get-RandChar
             }
             $Loop += $String
         }
@@ -65,9 +55,7 @@
         for ($j=0;$j -lt $Count;$j++){
             if ($String){Clear-Variable String}
             for ($i=0;$i -lt $Length;$i++) {
-                $RandomSet = Get-Random -InputObject $characters
-                $RandomFromSet = Get-Random -InputObject $RandomSet
-                $String += $RandomFromSet
+                $String += Get-RandChar
             }
             $Loop += $String
         }
