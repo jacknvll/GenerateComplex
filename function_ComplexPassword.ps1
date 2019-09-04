@@ -31,7 +31,6 @@
         return $RandomFromSet
     }
     $defaultLength = 7
-    $defaultCount = 1
   
     if (!$Length -and !$Count){ #Use the Default Length=7 and Count=1
         for ($i=0;$i -lt $defaultLength;$i++) {
