@@ -31,35 +31,42 @@
         return $RandomFromSet
     }
     $defaultLength = 7 #DefaultCount = 1, but there is no need to define this.
-  
-    if (!$Length -and !$Count){ #Use the Default Length=7 and Count=1
-        for ($i=0;$i -lt $defaultLength;$i++) {
-            $String += Get-RandChar  
+    $Test1 = if($Length){$True}
+    $Test2 = if ($Count){$True}
+
+    switch ($True){
+        {$Test1 -and $Test2} {   #"Length and Count Provided"
+            for ($j=0;$j -lt $Count;$j++){
+                if ($String){Clear-Variable String}
+                    for ($i=0;$i -lt $Length;$i++) {
+                        $String += Get-RandChar
+                    }
+                $Loop += $String
+            }
+            $Password += $Loop
         }
-        $Password +=$String
-    } elseif (!$Count) { #Length has been defined, but Count=1
-        for ($i=0;$i -lt $Length;$i++) {
-            $String += Get-RandChar  
-        }
-        $Password +=$String
-    } elseif (!$Length) { #Count has been defined, but Length=7
-        for ($j=0;$j -lt $Count;$j++){
-            if ($String){Clear-Variable String}
+        {!$Test1 -and !$Test2} { #"Use default Length and Count"
             for ($i=0;$i -lt $defaultLength;$i++) {
-                $String += Get-RandChar
+                $String += Get-RandChar  
             }
-            $Loop += $String
+            $Password +=$String
         }
-        $Password += $Loop
-    } else { #Both Count and Length have been defined
-        for ($j=0;$j -lt $Count;$j++){
-            if ($String){Clear-Variable String}
+        {$Test1 -and !$Test2} {  #"Length Provided, Use Default Count"
             for ($i=0;$i -lt $Length;$i++) {
-                $String += Get-RandChar
+                $String += Get-RandChar  
             }
-            $Loop += $String
+            $Password +=$String
         }
-        $Password += $Loop
-    }   
+        {$Test2 -and !$Test1} {  #"Count Provided, Use Default Length"
+            for ($j=0;$j -lt $Count;$j++){
+                if ($String){Clear-Variable String}
+                    for ($i=0;$i -lt $defaultLength;$i++) {
+                        $String += Get-RandChar
+                    }
+                $Loop += $String
+            }
+            $Password += $Loop
+        }
+    }    
     return $Password
 }
