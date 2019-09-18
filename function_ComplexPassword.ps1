@@ -30,7 +30,7 @@
         $RandomFromSet = Get-Random -InputObject $RandomSet
         return $RandomFromSet
     }
-    $defaultLength = 7 #DefaultCount = 1, but there is no need to define this.
+    $defaultLength = 8 #DefaultCount = 1, but there is no need to define this.
     $Test1 = if($Length){$True}
     $Test2 = if ($Count){$True}
 
