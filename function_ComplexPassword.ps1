@@ -1,18 +1,17 @@
 ﻿function Generate-Complex {
     [CmdletBinding()]
-    [Alias()]
-    [OutputType([int])]
+    [Alias('gco')]   
     Param
     (
         # Define number of characters to spit out, could use a Switch statement for this one. ParameterSet as well? as it needs minimum 6 characters
-        [Parameter(Mandatory=$false)] 
+        [Parameter(Position=1)] 
         [int]
-        $Length,
+        $Length=8,
 
         # Define number of Pins to generate. Could use a Do/While statement
-        [Parameter(Mandatory=$false)]
+        [Parameter(Position=2)]
         [int]
-        $Count
+        $Count=1
     )
     $Password = @()
     $Loop = @()
@@ -30,36 +29,15 @@
         $RandomFromSet = Get-Random -InputObject $RandomSet
         return $RandomFromSet
     }
-    $defaultLength = 7 #DefaultCount = 1, but there is no need to define this.
-  
-    if (!$Length -and !$Count){ #Use the Default Length=7 and Count=1
-        for ($i=0;$i -lt $defaultLength;$i++) {
-            $String += Get-RandChar  
-        }
-        $Password +=$String
-    } elseif (!$Count) { #Length has been defined, but Count=1
+
+    for ($j=0;$j -lt $Count;$j++){
+        if ($String){Clear-Variable String}
         for ($i=0;$i -lt $Length;$i++) {
-            $String += Get-RandChar  
+            $String += Get-RandChar
         }
-        $Password +=$String
-    } elseif (!$Length) { #Count has been defined, but Length=7
-        for ($j=0;$j -lt $Count;$j++){
-            if ($String){Clear-Variable String}
-            for ($i=0;$i -lt $defaultLength;$i++) {
-                $String += Get-RandChar
-            }
-            $Loop += $String
-        }
-        $Password += $Loop
-    } else { #Both Count and Length have been defined
-        for ($j=0;$j -lt $Count;$j++){
-            if ($String){Clear-Variable String}
-            for ($i=0;$i -lt $Length;$i++) {
-                $String += Get-RandChar
-            }
-            $Loop += $String
-        }
-        $Password += $Loop
-    }   
+        $Loop += $String
+    }
+    $Password += $Loop
+
     return $Password
 }
