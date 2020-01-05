@@ -13,10 +13,6 @@
         [int]
         $Count=1
     )
-    $Password = @()
-    $Loop = @()
-    $Error.Clear()
-
     function Get-RandChar {
         #Complex Generator
         $lowercase = @('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z')
@@ -29,15 +25,22 @@
         $RandomFromSet = Get-Random -InputObject $RandomSet
         return $RandomFromSet
     }
-
-    for ($j=0;$j -lt $Count;$j++){
-        if ($String){Clear-Variable String}
-        for ($i=0;$i -lt $Length;$i++) {
-            $String += Get-RandChar
-        }
-        $Loop += $String
+    Begin {
+        $Password = @()
+        $Loop = @()
+        $Error.Clear()
     }
-    $Password += $Loop
-
-    return $Password
+    Process {
+        for ($j=0;$j -lt $Count;$j++){
+            if ($String){Clear-Variable String}
+            for ($i=0;$i -lt $Length;$i++) {
+                $String += Get-RandChar
+            }
+            $Loop += $String
+        }
+        $Password += $Loop
+    }
+    End {   
+        return $Password
+    }
 }
